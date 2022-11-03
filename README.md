@@ -2,7 +2,23 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.5.
 
+## Description
+
+This is a sample Angular project to demonstrate voting in a very basic Tinder-like user interface (still missing Tinder transitions and animations though).
+The focus is on the architecture and the use of state management using the NGXS library to maintain the app state and keep track of user actions including:
+ - the product list 
+ - the current product in the viewport
+ - the votes for each product
+ 
+Also, the changes are persisted across reloads using the browser local storage. A very simple polling with an interval has been set, which triggers a fetch action to the store, whicn in turn updates the product list with any additions.
+
+There are a number of improvements to be done:
+- The current implementation polls the API and updates the product list with new products not currently in the store. However, this doesn't account for product field updates - this would require some fine tuning
+- Still missing animation and transitions
+
+
 ## Development server
+Run `npm install` at the root to install all dependencies.
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
