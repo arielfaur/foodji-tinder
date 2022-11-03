@@ -1,37 +1,26 @@
-
+<div class="reset">
+  <button type="button" (click)="reset()">Reset</button>
+</div>
 <div class="container">
-<div class="content" role="main" *ngIf="products$ | async as products">
-  <ng-container *ngIf="products.length > 0; else empty">
-    
+  <div class="content" role="main" *ngIf="products$ | async as products">
+    <ng-container *ngIf="products.length > 0; else empty">
       <ng-container *ngFor="let product of products">
-        <div class="swiper swiper-card" >
-          <img [src]="product.imageSet[0].url" class="image">
+        <div class="swiper swiper-card">
+          <img [src]="product.imageSet[0].url" class="image" />
           {{ product.name }}
         </div>
-
-
       </ng-container>
       <div class="control">
-        <button type="button" class="button yes" (click)="vote( 1)">Yes</button>
-        <button type="button" class="button no" (click)="vote( -1)">No</button>
-
-
+        <button type="button" class="button yes" (click)="vote(1)">Yes</button>
+        <button type="button" class="button no" (click)="vote(-1)">No</button>
       </div>
-      <div class="reset">
-        <button type="button" (click)="reset()">Reset</button>
-      </div>
-    
-  </ng-container>
-</div>
+    </ng-container>
 
-
-
+  </div>
 </div>
 
 <ng-template #empty>
-  <strong>There are no fresh products to show at the moment, please wait 5 seconds or refresh...</strong>
+  <div class="empty">There are no fresh products to show at the moment, please wait 5 seconds or refresh...</div>
 </ng-template>
-
-
 
 <router-outlet></router-outlet>

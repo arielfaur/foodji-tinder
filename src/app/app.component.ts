@@ -11,30 +11,25 @@ import { ProductState } from './states/product.state';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnInit {
-  title = 'food-tinder';
+export class AppComponent {
   currentProduct!: Product;
 
+  // selector to filter for fresh food only (category 'Hauptspeisen - Mains'... not always available)
   @Select(ProductState.getProducts) products$!: Observable<Product[]>;
+  
+  // selector for current visible product
   @Select(ProductState.getCurrentProduct) currentProduct$!: Observable<Product>;
 
   constructor(private store: Store) {
-
-
-    this.fetch();
-  }
-
-  fetch() {
+    // subscribe to current product selector
     this.currentProduct$.subscribe((current) => {
       this.currentProduct = current;
-      console.log(current);
     });
-    
+
     setInterval(() => this.store.dispatch(new FetchProducts()), 10000);
   }
 
-  ngOnInit() {}
-
+  // cast a positive or negative vote
   vote(vote: number) {
     this.store.dispatch(new Vote(this.currentProduct, vote));
   }
