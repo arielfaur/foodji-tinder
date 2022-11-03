@@ -2,7 +2,7 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Product } from './../models/product.model';
 import { FetchProducts, Reset, Vote } from './../actions/product.actions';
 import { ProductsService } from '../products.service';
-import { interval, switchMap, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 export interface ProductStateModel {
@@ -40,10 +40,12 @@ export class ProductState {
         );
     }
 
+    /**
+     * Gets products and adds only non-existing ones to the store
+     */
     @Action(FetchProducts)
     add({ getState, patchState }: StateContext<ProductStateModel>) {
         const state = getState();
-
         return this.productService.fetchProducts().pipe(
             tap((newProducts) => {
                 let products: Product[] = [];
@@ -63,6 +65,9 @@ export class ProductState {
         );
     }
 
+    /**
+     * Updates votes per product and removes the current product from the stack
+     */
     @Action(Vote)
     vote(
         { getState, patchState }: StateContext<ProductStateModel>,
@@ -79,6 +84,9 @@ export class ProductState {
         });
     }
 
+    /**
+     * Resets the store
+     */
     @Action(Reset)
     reset({ getState, setState }: StateContext<ProductStateModel>) {
         setState({

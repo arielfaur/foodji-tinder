@@ -14,8 +14,9 @@ import { ProductState } from './states/product.state';
 export class AppComponent {
   currentProduct!: Product;
 
-  // selector to filter for fresh food only (category 'Hauptspeisen - Mains'... not always available)
-  @Select(ProductState.getProducts) products$!: Observable<Product[]>;
+  // selector to filter products
+  // use either ProductState.getProducts or ProductState.getFoodProducts for fresh food only (filters for category 'Hauptspeisen - Mains'... but it's not always available)
+  @Select(ProductState.getFoodProducts) products$!: Observable<Product[]>;
   
   // selector for current visible product
   @Select(ProductState.getCurrentProduct) currentProduct$!: Observable<Product>;
