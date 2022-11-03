@@ -1,6 +1,7 @@
 <div class="reset">
-  <button type="button" (click)="toggle()">Toggle food type - show {{ filter }}</button>
+  <button type="button" (click)="toggleProductType()">Toggle food type - show {{ filter }}</button>
   <button type="button" (click)="reset()">Reset</button>
+  <button type="button" (click)="stopPolling()">Stop polling</button>
 </div>
 <div class="container">
   <div class="content" role="main" *ngIf="products$ | async as products">

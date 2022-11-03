@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
-import { Observable, tap } from 'rxjs';
+import { interval, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { FetchProducts, Reset, Vote } from './actions/product.actions';
 import { Product } from './models/product.model';
 import { ProductState } from './states/product.state';
@@ -11,16 +11,18 @@ import { ProductState } from './states/product.state';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   currentProduct!: Product;
   products$!: Observable<Product[]>;
   filter: 'all' | 'food only' = 'all';
+
+  pollApiSubscription$ = new Subject<void>();
 
   // selector to filter products
   // use either ProductState.getProducts or ProductState.getFoodProducts for fresh food only (filters for category 'Hauptspeisen - Mains'... but it's not always available)
   @Select(ProductState.getAllProducts) allProducts$!: Observable<Product[]>;
   @Select(ProductState.getFoodProducts) foodProducts$!: Observable<Product[]>;
-  
+
   // selector for current visible product
   @Select(ProductState.getCurrentProduct) currentProduct$!: Observable<Product>;
 
@@ -32,7 +34,22 @@ export class AppComponent {
       this.currentProduct = current;
     });
 
-    setInterval(() => this.store.dispatch(new FetchProducts()), 10000);
+    // poll Api endpoing every 5 seconds and tear down subscription
+    interval(5000)
+      .pipe(
+        takeUntil(this.pollApiSubscription$),
+        switchMap(() => this.store.dispatch(new FetchProducts()))
+      )
+      .subscribe();
+  }
+
+  stopPolling() {
+    this.pollApiSubscription$.next();
+    this.pollApiSubscription$.complete();
+  }
+
+  ngOnDestroy(): void {
+    this.stopPolling();
   }
 
   // cast a positive or negative vote
@@ -44,8 +61,8 @@ export class AppComponent {
     this.store.dispatch(new Reset());
   }
 
-  toggle() {
-    this.filter = this.filter  === 'all' ? 'food only' : 'all';
+  toggleProductType() {
+    this.filter = this.filter === 'all' ? 'food only' : 'all';
     if (this.filter === 'all') {
       this.products$ = this.allProducts$;
     } else {
