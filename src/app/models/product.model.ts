@@ -11,6 +11,6 @@ export interface Product {
     price: number;
     category: Category;
     subCategory: Category;
-    imageUrl: string;
+    imageSet: { url: string }[];
     // votes: number;
 }

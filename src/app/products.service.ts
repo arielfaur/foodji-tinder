@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
+import { environment } from '../environments/environment';
 import { APIResponse } from './models/api-response.model';
 import { Product } from './models/product.model';
 
@@ -9,12 +10,10 @@ import { Product } from './models/product.model';
 })
 export class ProductsService {
 
-  readonly uri = 'https://amperoid.tenants.foodji.io/machines/4bf115ee-303a-4089-a3ea-f6e7aae0ab94'; 
-
   constructor(private httpClient: HttpClient) { }
 
   fetchProducts(): Observable<Product[]> {
-    return this.httpClient.get<APIResponse>(this.uri).pipe(
+    return this.httpClient.get<APIResponse>(environment.apiUri).pipe(
       map(results => {
         if (results.status !== 'success') {
           return []

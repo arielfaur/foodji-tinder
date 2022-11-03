@@ -7,5 +7,9 @@ export class FetchProducts {
 export class Vote {
     static readonly type = '[PRODUCT] Vote';
 
-    constructor(public product: Product) {}
+    constructor(public product: Product, public vote: number ) {}
+}
+
+export class Reset {
+    static readonly type = '[PRODUCT] Reset';
 }

@@ -3,8 +3,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductState } from './states/product.state';
@@ -17,9 +17,10 @@ import { ProductState } from './states/product.state';
     BrowserModule,
     HttpClientModule,
     NgxsModule.forRoot([ProductState]),
+    NgxsStoragePluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    // NgxsLoggerPluginModule.forRoot(),
-    AppRoutingModule
+    NgxsLoggerPluginModule.forRoot(),
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
