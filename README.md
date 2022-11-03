@@ -16,6 +16,7 @@ There are a number of improvements to be done:
 - Explore background fetch for API polling: e.g. use web workers to poll API...
 - The current implementation polls the API and updates the product list with new products not currently in the store. However, this doesn't account for granular field updates - this would require some fine tuning
 - Still missing animation and transitions - UI improvements
+- Unit tests
 
 
 ## Development server
