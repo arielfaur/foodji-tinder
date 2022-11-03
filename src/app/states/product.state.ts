@@ -24,7 +24,7 @@ export class ProductState {
     constructor(private productService: ProductsService) { }
 
     @Selector()
-    static getProducts(state: ProductStateModel) {
+    static getAllProducts(state: ProductStateModel) {
         return state.products;
     }
 
@@ -75,8 +75,10 @@ export class ProductState {
     ) {
         const state = getState();
         let productVotes = state.votes[product.id] || 0;
+        const products = [...state.products.slice(0, -1)];
         patchState({
-            products: [...state.products.slice(0, -1)],
+            products: [...products],
+            currentProduct: products.pop(),
             votes: {
                 ...state.votes,
                 [product.id]: productVotes + vote,

@@ -12,6 +12,7 @@
     .content {
         display: flex;
         justify-content: center;
+        margin-top: 30px;
     }
 
 }
@@ -52,6 +53,7 @@
     top: 25px;
     right: 25px;
     z-index: 1000;
+    gap: 10px;
 
     button {
         border-radius: 25px;

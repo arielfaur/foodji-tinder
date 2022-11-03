@@ -13,15 +13,20 @@ import { ProductState } from './states/product.state';
 })
 export class AppComponent {
   currentProduct!: Product;
+  products$!: Observable<Product[]>;
+  filter: 'all' | 'food only' = 'all';
 
   // selector to filter products
   // use either ProductState.getProducts or ProductState.getFoodProducts for fresh food only (filters for category 'Hauptspeisen - Mains'... but it's not always available)
-  @Select(ProductState.getFoodProducts) products$!: Observable<Product[]>;
+  @Select(ProductState.getAllProducts) allProducts$!: Observable<Product[]>;
+  @Select(ProductState.getFoodProducts) foodProducts$!: Observable<Product[]>;
   
   // selector for current visible product
   @Select(ProductState.getCurrentProduct) currentProduct$!: Observable<Product>;
 
   constructor(private store: Store) {
+    this.products$ = this.allProducts$;
+
     // subscribe to current product selector
     this.currentProduct$.subscribe((current) => {
       this.currentProduct = current;
@@ -37,5 +42,14 @@ export class AppComponent {
 
   reset() {
     this.store.dispatch(new Reset());
+  }
+
+  toggle() {
+    this.filter = this.filter  === 'all' ? 'food only' : 'all';
+    if (this.filter === 'all') {
+      this.products$ = this.allProducts$;
+    } else {
+      this.products$ = this.foodProducts$;
+    }
   }
 }
