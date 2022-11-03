@@ -10,7 +10,7 @@ The focus is on the architecture and the use of state management using the NGXS 
  - the current product in the viewport
  - the votes for each product
  
-Also, the changes are persisted across reloads using the browser local storage. A very simple polling with an interval has been set, which triggers a fetch action to the store, whicn in turn updates the product list with any additions. There's a toggle to switch between showing all products or food only (comes back empty from API sometimes...)
+Also, the changes are persisted across reloads using the browser local storage. A very simple polling with an interval has been set, which triggers a fetch action to the store, which in turn updates the product list with any additions. There's a toggle to switch between showing all products or food only (comes back empty from API sometimes...)
 
 There are a number of improvements to be done:
 - Explore background fetch for API polling: e.g. use web workers to poll API...
